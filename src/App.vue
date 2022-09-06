@@ -35,6 +35,8 @@
         <span class="mr-2">Latest Release</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
+      <router-link to="/">Home</router-link>
+      <router-link to="/completed">Completed</router-link>
     </v-app-bar>
 
     <v-main>
