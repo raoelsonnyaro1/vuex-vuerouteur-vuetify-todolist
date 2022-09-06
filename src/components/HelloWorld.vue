@@ -10,6 +10,10 @@
 </template>
 
 <script>
+  import store from "@/store";
+import Vuex from "vuex";
+
+global.v = Vuex;
   export default {
     store: store,
     name: 'HelloWorld',
