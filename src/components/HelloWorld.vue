@@ -2,7 +2,7 @@
   <v-container>
      <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="todos"
     :items-per-page="5"
     class="elevation-1"
   ></v-data-table>
@@ -11,59 +11,54 @@
 
 <script>
   export default {
+    store: store,
     name: 'HelloWorld',
 
     data: () => ({
-      ecosystem: [
-        {
-          text: 'vuetify-loader',
-          href: 'https://github.com/vuetifyjs/vuetify-loader',
-        },
-        {
-          text: 'github',
-          href: 'https://github.com/vuetifyjs/vuetify',
-        },
-        {
-          text: 'awesome-vuetify',
-          href: 'https://github.com/vuetifyjs/awesome-vuetify',
-        },
-      ],
-      importantLinks: [
-        {
-          text: 'Documentation',
-          href: 'https://vuetifyjs.com',
-        },
-        {
-          text: 'Chat',
-          href: 'https://community.vuetifyjs.com',
-        },
-        {
-          text: 'Made with Vuetify',
-          href: 'https://madewithvuejs.com/vuetify',
-        },
-        {
-          text: 'Twitter',
-          href: 'https://twitter.com/vuetifyjs',
-        },
-        {
-          text: 'Articles',
-          href: 'https://medium.com/vuetify',
-        },
-      ],
-      whatsNext: [
-        {
-          text: 'Explore components',
-          href: 'https://vuetifyjs.com/components/api-explorer',
-        },
-        {
-          text: 'Select a layout',
-          href: 'https://vuetifyjs.com/getting-started/pre-made-layouts',
-        },
-        {
-          text: 'Frequently Asked Questions',
-          href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
-        },
-      ],
+      headers: [
+          {
+            text: 'Id',
+            align: 'start',
+            value: 'id',
+          },
+          { text: 'Completed', value: 'completed' },
+          { text: 'Title', value: 'title' },
+          { text: 'Action', value: 'action' },
+        ],
+      newTodo: "",
     }),
+
+    
+  methods: {
+    ...Vuex.mapActions({
+      addTodoStore: "addTodo",
+      deleteTodoStore: "deleteTodo",
+      updatedTodoStore: "updateTodo",
+    }),
+
+    addTodo(newTodo) {
+      this.addTodoStore(newTodo);
+      this.newTodo = "";
+    },
+
+    updateTodo(todo) {
+      this.updatedTodoStore(todo);
+    },
+
+    deleteTodo(todo) {
+      this.deleteTodoStore(todo);
+    },
+  },
+
+  computed: {
+    ...Vuex.mapGetters(["todos", "completedTodos"]),
+    hasCompleted() {
+      return this.completedTodos.length > 0;
+    },
+  },
+
+  mounted() {
+    this.$store.dispatch("fetchTodos");
+  },
   }
 </script>
