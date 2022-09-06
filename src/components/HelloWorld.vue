@@ -1,13 +1,22 @@
 <template>
-  <v-container>
-     <v-data-table
-    :headers="headers"
-    :items="todos"
-    :items-per-page="5"
-    class="elevation-1"
-  ></v-data-table>
-  </v-container>
+  <v-card>
+    <v-card-title>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="todos"
+      :search="search"
+    ></v-data-table>
+  </v-card>
 </template>
+
 
 <script>
   import store from "@/store";
@@ -19,6 +28,7 @@ global.v = Vuex;
     name: 'HelloWorld',
 
     data: () => ({
+      search: '',
       headers: [
           {
             text: 'Id',
