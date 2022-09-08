@@ -15,22 +15,6 @@
       :items="todos"
       :search="search"
     >
-    <template slot="headers" slot-scope="props">
-        <tr>
-          <th>
-              Id
-          </th>
-          <th>
-            completed
-          </th>
-          <th>
-            title
-          </th>
-          <th>
-            action
-          </th>
-        </tr>
-      </template>
       <template slot="items" slot-scope="props">
         <tr>
           <td>{{ props.item.id }}</td>
@@ -42,11 +26,12 @@
               @change="updateTodo(todo)"
             ></v-checkbox>
           </td>
-          <td class="text-xs-right">{{ props.item.title }}</td>
-          <td class="text-xs-right"><v-btn :value="btnSupprimer" @click.prevent="deleteTodo(todo)">
+          <td>{{ props.item.title }}</td>
+          <td><v-btn :value="btnSupprimer" @click.prevent="deleteTodo(todo)">
               </v-btn></td>
         </tr>
-      </template></v-data-table>
+      </template>
+    </v-data-table>
   </v-card>
   <v-text-field label="add todo" v-model="newTodo" @keypress.enter="addTodo(newTodo)"></v-text-field>
   </div>
@@ -59,9 +44,11 @@
 import Vuex from "vuex";
 
 global.v = Vuex;
+
   export default {
     store: store,
     name: 'HelloWorld',
+    
 
     data: () => ({
       search: '',

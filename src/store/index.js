@@ -19,6 +19,7 @@ const getters = {
 
 const mutations = {
   setTodos: (state, todos) => (state.todos = todos),
+  setCompletedTodos: (state, completedTodos) => (state.completedTodos = completedTodos),
 
   update_todo: (state, updatedTodo) => {
     const index = state.todos.findIndex((t) => t.id === updatedTodo.id);
@@ -35,6 +36,13 @@ const actions = {
   }) {
     const response = await axios.get(resource_uri);
     commit("setTodos", response.data);
+  },
+
+  async fetchCompletedTodos({
+    commit
+  }) {
+    const response = await axios.get(resource_uri);
+    commit("setCompletedTodos", response.data);
   },
 
   async addTodo({
