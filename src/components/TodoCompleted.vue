@@ -1,4 +1,4 @@
-<template>
+<template v-show="hasCompleted">
     <v-card>
       <v-card-title>
         <v-text-field
@@ -13,7 +13,9 @@
         :headers="headers"
         :items="completedTodos"
         :search="search"
-      ></v-data-table>
+      >
+    
+    </v-data-table>
     </v-card>
   </template>
   

@@ -1,5 +1,6 @@
 <template>
-  <v-card>
+  <div>
+    <v-card>
     <v-card-title>
       <v-text-field
         v-model="search"
@@ -42,10 +43,14 @@
             ></v-checkbox>
           </td>
           <td class="text-xs-right">{{ props.item.title }}</td>
-          <td class="text-xs-right"></td>
+          <td class="text-xs-right"><v-btn :value="btnSupprimer" @click.prevent="deleteTodo(todo)">
+              </v-btn></td>
         </tr>
       </template></v-data-table>
   </v-card>
+  <v-text-field label="add todo" v-model="newTodo" @keypress.enter="addTodo(newTodo)"></v-text-field>
+  </div>
+ 
 </template>
 
 
@@ -97,9 +102,6 @@ global.v = Vuex;
 
   computed: {
     ...Vuex.mapGetters(["todos"]),
-    hasCompleted() {
-      return this.completedTodos.length > 0;
-    },
   },
 
   mounted() {
