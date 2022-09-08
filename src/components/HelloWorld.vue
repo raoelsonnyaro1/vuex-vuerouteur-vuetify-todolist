@@ -4,7 +4,6 @@
     <v-card-title>
       <v-text-field
         v-model="search"
-        append-icon="mdi-magnify"
         label="Search"
         single-line
         hide-details
@@ -15,22 +14,23 @@
       :items="todos"
       :search="search"
     >
-      <template slot="items" slot-scope="props">
-        <tr>
-          <td>{{ props.item.id }}</td>
-          <td>
-            <v-checkbox
-              :input-value="props.item.completed"
+    <template v-slot:item.completed="{ item }">
+      <v-checkbox
+              :input-value="item.completed"
               primary
               hide-details
-              @change="updateTodo(todo)"
+              v-model="item.completed"
+              @change="updateTodo(item)"
             ></v-checkbox>
-          </td>
-          <td>{{ props.item.title }}</td>
-          <td><v-btn :value="btnSupprimer" @click.prevent="deleteTodo(todo)">
-              </v-btn></td>
-        </tr>
-      </template>
+    </template>
+    <template v-slot:item.action="{ item }">
+              <v-icon
+        small
+        @click.prevent="deleteTodo(item)"
+      >
+        mdi-delete
+      </v-icon>
+    </template>
     </v-data-table>
   </v-card>
   <v-text-field label="add todo" v-model="newTodo" @keypress.enter="addTodo(newTodo)"></v-text-field>
@@ -52,6 +52,7 @@ global.v = Vuex;
 
     data: () => ({
       search: '',
+      newTodo: "",
       headers: [
           {
             text: 'Id',
@@ -62,7 +63,7 @@ global.v = Vuex;
           { text: 'Title',sortable: false, value: 'title' },
           { text: 'Action',sortable: false, value: 'action' },
         ],
-      newTodo: "",
+      
     }),
 
     
