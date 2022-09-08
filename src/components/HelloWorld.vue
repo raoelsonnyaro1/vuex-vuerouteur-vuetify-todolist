@@ -12,9 +12,10 @@
     <v-data-table
       :headers="headers"
       :items="todos"
+      :items-per-page="5"
       :search="search"
     >
-    <template v-slot:item.completed="{ item }">
+    <template v-slot:[`item.completed`]="{ item }">
       <v-checkbox
               :input-value="item.completed"
               primary
@@ -23,7 +24,7 @@
               @change="updateTodo(item)"
             ></v-checkbox>
     </template>
-    <template v-slot:item.action="{ item }">
+    <template v-slot:[`item.action`]="{ item }">
               <v-icon
         small
         @click.prevent="deleteTodo(item)"

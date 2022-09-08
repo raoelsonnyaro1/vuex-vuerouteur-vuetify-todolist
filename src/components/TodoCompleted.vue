@@ -12,6 +12,7 @@
       <v-data-table
         :headers="headers"
         :items="completedTodos"
+        :items-per-page="5"
         :search="search"
       >
     
