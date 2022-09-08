@@ -14,7 +14,6 @@ const getters = {
   todos: (state) => state.todos,
   completedTodos: (state) => state.todos.filter((todo) => todo.completed),
   remainingTodos: (state) => state.todos.filter((todo) => !todo.completed),
-  remainingTodos: (state) => state.todos.filter((todo) => !todo.completed),
   completedTodosCount: (state) => getters.completedTodos(state).length,
 };
 

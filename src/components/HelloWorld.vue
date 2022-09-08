@@ -13,7 +13,38 @@
       :headers="headers"
       :items="todos"
       :search="search"
-    ></v-data-table>
+    >
+    <template slot="headers" slot-scope="props">
+        <tr>
+          <th>
+              Id
+          </th>
+          <th>
+            completed
+          </th>
+          <th>
+            title
+          </th>
+          <th>
+            action
+          </th>
+        </tr>
+      </template>
+      <template slot="items" slot-scope="props">
+        <tr>
+          <td>{{ props.item.id }}</td>
+          <td>
+            <v-checkbox
+              :input-value="props.item.completed"
+              primary
+              hide-details
+              @change="updateTodo(todo)"
+            ></v-checkbox>
+          </td>
+          <td class="text-xs-right">{{ props.item.title }}</td>
+          <td class="text-xs-right"></td>
+        </tr>
+      </template></v-data-table>
   </v-card>
 </template>
 
@@ -65,7 +96,7 @@ global.v = Vuex;
   },
 
   computed: {
-    ...Vuex.mapGetters(["todos", "completedTodos"]),
+    ...Vuex.mapGetters(["todos"]),
     hasCompleted() {
       return this.completedTodos.length > 0;
     },
