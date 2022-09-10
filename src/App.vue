@@ -28,7 +28,7 @@
       <v-spacer></v-spacer>
 
       <v-btn color="primary" to="/">Home</v-btn>
-      <v-btn color="primary" to="/about">completed</v-btn>
+      <v-btn color="primary" to="/completed">Completed</v-btn>
     </v-app-bar>
 
     <v-main>

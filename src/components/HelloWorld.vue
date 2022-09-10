@@ -1,9 +1,9 @@
 <template>
-  <v-card>
+  <div>
+    <v-card>
     <v-card-title>
       <v-text-field
         v-model="search"
-        append-icon="mdi-magnify"
         label="Search"
         single-line
         hide-details
@@ -12,9 +12,31 @@
     <v-data-table
       :headers="headers"
       :items="todos"
+      :items-per-page="5"
       :search="search"
-    ></v-data-table>
+    >
+    <template v-slot:[`item.completed`]="{ item }">
+      <v-checkbox
+              :input-value="item.completed"
+              primary
+              hide-details
+              v-model="item.completed"
+              @change="updateTodo(item)"
+            ></v-checkbox>
+    </template>
+    <template v-slot:[`item.action`]="{ item }">
+              <v-icon
+        small
+        @click.prevent="deleteTodo(item)"
+      >
+        mdi-delete
+      </v-icon>
+    </template>
+    </v-data-table>
   </v-card>
+  <v-text-field label="add todo" v-model="newTodo" @keypress.enter="addTodo(newTodo)"></v-text-field>
+  </div>
+ 
 </template>
 
 
@@ -23,12 +45,15 @@
 import Vuex from "vuex";
 
 global.v = Vuex;
+
   export default {
     store: store,
     name: 'HelloWorld',
+    
 
     data: () => ({
       search: '',
+      newTodo: "",
       headers: [
           {
             text: 'Id',
@@ -39,7 +64,7 @@ global.v = Vuex;
           { text: 'Title',sortable: false, value: 'title' },
           { text: 'Action',sortable: false, value: 'action' },
         ],
-      newTodo: "",
+      
     }),
 
     
@@ -65,10 +90,7 @@ global.v = Vuex;
   },
 
   computed: {
-    ...Vuex.mapGetters(["todos", "completedTodos"]),
-    hasCompleted() {
-      return this.completedTodos.length > 0;
-    },
+    ...Vuex.mapGetters(["todos"]),
   },
 
   mounted() {
