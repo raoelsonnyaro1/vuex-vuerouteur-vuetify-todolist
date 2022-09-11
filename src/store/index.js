@@ -8,10 +8,12 @@ const resource_uri = "https://jsonplaceholder.typicode.com/todos/";
 
 const state = {
   todos: [],
+  todo: null,
 };
 
 const getters = {
   todos: (state) => state.todos,
+  todo: (state) => state.todo,
   completedTodos: (state) => state.todos.filter((todo) => todo.completed),
   remainingTodos: (state) => state.todos.filter((todo) => !todo.completed),
   completedTodosCount: (state) => getters.completedTodos(state).length,
@@ -19,7 +21,9 @@ const getters = {
 
 const mutations = {
   setTodos: (state, todos) => (state.todos = todos),
-  setCompletedTodos: (state, completedTodos) => (state.completedTodos = completedTodos),
+  setTodo: (state, todo) => (state.todo = todo),
+  setCompletedTodos: (state, completedTodos) =>
+    (state.completedTodos = completedTodos),
 
   update_todo: (state, updatedTodo) => {
     const index = state.todos.findIndex((t) => t.id === updatedTodo.id);
@@ -27,50 +31,50 @@ const mutations = {
       state.todos.splice(index, 1, updatedTodo);
     }
   },
-
 };
 
 const actions = {
-  async fetchTodos({
-    commit
-  }) {
+  async fetchTodos({ commit }) {
     const response = await axios.get(resource_uri);
     commit("setTodos", response.data);
   },
 
-  async fetchCompletedTodos({
-    commit
-  }) {
+  async fetchCompletedTodos({ commit }) {
     const response = await axios.get(resource_uri);
     commit("setCompletedTodos", response.data);
   },
 
-  async addTodo({
-    commit,state
-  }, todo) {
+  async addTodo({ commit, state }, todo) {
     const response = await axios.post(resource_uri, todo);
-    commit("setTodos", [...state.todos,{
-      id:state.todos[state.todos.length-1].id+1,
-      title: todo,
-      completed: false,
-    }]);
+    commit("setTodos", [
+      ...state.todos,
+      {
+        id: state.todos[state.todos.length - 1].id + 1,
+        title: todo,
+        completed: false,
+      },
+    ]);
   },
 
-  async updateTodo({
-    commit
-  }, todo) {
-    const response = await axios.put('${resource_uri}${todo.id}', todo);
+  async updateTodo({ commit }, todo) {
+    const response = await axios.put(`${resource_uri}${todo.id}`, todo);
     commit("update_todo", response.data);
   },
 
-  async deleteTodo({
-    commit,state
-  }, todo) {
+  async deleteTodo({ commit, state }, todo) {
     const response = await axios.delete(
       "https://jsonplaceholder.typicode.com/todos/1"
     );
     const test = [...state.todos];
-    commit("setTodos", test.filter((t) => t.id !== todo.id));
+    commit(
+      "setTodos",
+      test.filter((t) => t.id !== todo.id)
+    );
+  },
+
+  async getTodo({ commit }, todoId) {
+    const response = await axios.get(`${resource_uri}${todoId.id}`);
+    commit("setTodo", response.data);
   },
 };
 
