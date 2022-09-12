@@ -1,12 +1,12 @@
 .<template>
   <div class="todo">
     <router-link to="/">&lt; Back</router-link>
-    <v-card class="mx-auto" max-width="344" outlined>
+    <v-card class="mx-auto" max-width="600" outlined>
       <v-list-item three-line>
         <v-list-item-content>
-          <div class="text-overline mb-4"></div>
+          <div class="text-overline mb-4">{{ todo.title }}</div>
           <v-list-item-title class="mb-1">
-            <ul>
+            <ul v-if="todo">
               <li>id:{{ todo.id }}</li>
               <li>title:{{ todo.title }}</li>
               <li>completed:{{ todo.completed }}</li>
